@@ -1,0 +1,12 @@
+<% @title = "New Conversation" %>
+<%= error_messages_for :conversation %>
+
+<% form_remote_for(:contact, :url => { :action => :add_contact }, :update => 'contacts_in_conversation') do |f| %>
+  <%= render :partial => 'who_with', :locals => { :f => f } %>
+<% end %>
+
+<% tagged_form_for(:conversation, :url => conversations_path) do |f| %>
+  <%= render :partial => 'conversation_details', :locals => { :f => f, :submit_label => 'Create' } %>
+<% end %>
+
+<%= spanned_image_and_link_to "/images/table.png", 'Conversations', conversations_path %>

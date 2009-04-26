@@ -1,0 +1,8 @@
+<% @title = "Conversation" %>
+
+<%= label_and_value("When: ", @conversation.when_held_as_string) %>
+<%= label_and_contact_links("Who with: ", @conversation.contacts) %>
+<%= label_and_value("Title: ", @conversation.title) %>
+<%= label_and_value("Details: ", string_as_paras(@conversation.details)) %>
+
+<%= spanned_image_and_link_to "/images/pencil.png", 'Edit', edit_conversation_path(@conversation) %>

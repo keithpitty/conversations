@@ -1,0 +1,33 @@
+<% @title = "Conversation List" %>
+<% if @conversations.length > 0 %>
+  <table cellspacing="0">	
+	  <colgroup>
+	    <col id="whenAndWhoCol">
+	    <col id="titleCol">
+	    <col id="actionsCol">
+	  </colgroup>
+	  <thead>
+	    <th scope="col">When and Who</th>
+	    <th scope="col">Title</th>
+	    <th scope="col">Actions</th>
+	  </thead>
+	  <tbody>
+   <% odd_or_even = 0 
+      for conversation in @conversations
+	     odd_or_even = 1 - odd_or_even %>
+		<tr class="row<%= odd_or_even %>">
+		  <td><%= link_to conversation.when_and_who, conversation_path(conversation) %></td>
+		  <td><%=h conversation.title %></td>
+		  <td class="imageAndLinks">
+		    <%= image_and_link_to "/images/pencil.png", 'Edit', edit_conversation_path(conversation) %> 
+		    <%= image_and_link_to "/images/delete.png", 'Delete', conversation_path(conversation), :confirm => 'Are you sure?', 
+		                                                                                                   :method => :delete %>
+		  </td>
+		</tr>
+   <% end %>
+	  </tbody>
+  </table>
+	<%= will_paginate @conversations %>
+<% else%>
+     <p>No conversations yet.</p>
+<% end %>

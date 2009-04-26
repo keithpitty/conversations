@@ -1,0 +1,33 @@
+<% @title = "Reminder List" %>
+<% if @reminders.length > 0 %>
+  <table cellspacing="0">	
+	  <colgroup>
+	    <col id="whenAndWhoCol">
+	    <col id="titleCol">
+	    <col id="actionsCol">
+	  </colgroup>
+	  <thead>
+	    <th scope="col">When and Who</th>
+	    <th scope="col">Title</th>
+	    <th scope="col">Actions</th>
+	  </thead>
+	  <tbody>
+   <% odd_or_even = 0 
+      for reminder in @reminders
+	     odd_or_even = 1 - odd_or_even %>
+		<tr class="row<%= odd_or_even %>">
+		  <td><%= link_to reminder.when_and_who, reminder_path(reminder) %></td>
+		  <td><%=h reminder.title %></td>
+		  <td class="imageAndLinks">
+		    <%= image_and_link_to "/images/pencil.png", 'Edit', edit_reminder_path(reminder) %> 
+		    <%= image_and_link_to "/images/delete.png", 'Delete', reminder_path(reminder), :confirm => 'Are you sure?', 
+		                                                                                   :method => :delete %>
+		  </td>
+		</tr>
+   <% end %>
+	  </tbody>
+  </table>
+	<%= will_paginate @reminders %>
+<% else%>
+     <p>No reminders yet.</p>
+<% end %>

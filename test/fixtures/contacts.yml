@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+fred:
+  id: 1
+  first_name: Fred
+  last_name: Bloggs
+  organisation: Megabucks Inc.
+  notes: Good source of advice on making money.
+joe:
+  id: 2
+  first_name: Joe
+  last_name: Blow
+  organisation: Fair Dinkum Software.
+  notes: Not a lot to say.
+bruce:
+  id: 3
+  first_name: Bruce
+  last_name: Brewer
+  organisation: Aussie Brewing Supplies.
+  notes: Not a lot to say.

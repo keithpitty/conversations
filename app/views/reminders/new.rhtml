@@ -1,0 +1,12 @@
+<% @title = "New Reminder" %>
+<%= error_messages_for :reminder %>
+
+<% form_remote_for(:contact, :url => { :action => :add_contact }, :update => 'contacts_for_reminder') do |f| %>
+  <%= render :partial => 'who_with', :locals => { :f => f } %>
+<% end %>
+
+<% tagged_form_for(:reminder, :url => reminders_path) do |f| %>
+  <%= render :partial => 'reminder_details', :locals => { :f => f, :submit_label => 'Create' } %>
+<% end %>
+
+<%= spanned_image_and_link_to "/images/table.png", 'Reminders', reminders_path %>

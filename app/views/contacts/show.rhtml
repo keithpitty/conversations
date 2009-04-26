@@ -1,0 +1,27 @@
+<% @title = "Contact" %>
+
+<%= label_and_value("Name: ", @contact.full_name) %>
+<%= label_and_value("Organisation: ", @contact.organisation) %>
+<%= label_and_value("Notes: ", string_as_paras(@contact.notes)) %>
+
+<%= spanned_image_and_link_to "/images/pencil.png", 'Edit contact', edit_contact_path(@contact) %>
+<%= spanned_image_and_link_to "/images/add.png", 'Add conversation with ' + @contact.first_name, new_conversation_with_contact_path(@contact) %>
+<%= spanned_image_and_link_to "/images/add.png", "Add reminder to contact " + @contact.first_name, new_reminder_for_contact_path(@contact) %>
+<% unless @contact.reminders.blank? %>
+<h3>Reminders</h3>
+<%   @contact.reminders.each do |reminder| %>
+       <%= label_and_value(reminder.when_and_about + ": ", string_as_paras(reminder.details)) %>	
+	   <%= spanned_image_and_link_to "/images/pencil.png", 'Edit reminder', edit_reminder_path(reminder) %>
+       <%= spanned_image_and_link_to "/images/delete.png", 'Delete reminder', reminder_path(reminder), :confirm => 'Are you sure?',
+                                                                                                       :method => :delete %>
+<%   end
+   end %>
+<h2>Conversations with <%= @contact.first_name %></h2>
+<% if @contact.conversations.blank? %>
+<p>None</p>
+<% else
+     @contact.conversations.each do |conversation| %>
+       <%= label_and_value(conversation.when_and_about + ": ", string_as_paras(conversation.details)) %>
+       <%= spanned_image_and_link_to "/images/pencil.png", 'Edit conversation', edit_conversation_path(conversation) %>
+  <% end
+   end %>

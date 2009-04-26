@@ -1,0 +1,10 @@
+<fieldset>
+  <legend>Who With?</legend>
+    <div id="contacts_in_conversation">
+	    <%= render :partial => "contacts_in_conversation", :locals => { :contacts => @contacts_in_conversation } %>
+	</div>
+	<p>
+      <%= f.collection_select :id, @contacts, :id, :full_name, {:include_blank => '--Select contact--'} %>
+      <%= submit_tag "Add" %>
+    </p>
+</fieldset>

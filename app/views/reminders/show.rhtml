@@ -1,0 +1,8 @@
+<% @title = "Reminder" %>
+
+<%= label_and_value("When due: ", @reminder.when_due_as_string) %>
+<%= label_and_contact_links("Who with: ", @reminder.contacts) %>
+<%= label_and_value("Title: ", @reminder.title) %>
+<%= label_and_value("Details: ", string_as_paras(@reminder.details)) %>
+
+<%= spanned_image_and_link_to "/images/pencil.png", 'Edit', edit_reminder_path(@reminder) %>

@@ -1,0 +1,6 @@
+<p>Contacts <em class="required">(required)</em>: 
+<% contacts.each do |contact| %>
+  <%=h contact.full_name %> (<%= link_to_remote 'x', :update => 'contacts_in_conversation', 
+                              :url => { :action => 'delete_contact', :id => contact.id } %>) 
+<% end %>
+</p>

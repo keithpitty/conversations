@@ -1,0 +1,9 @@
+<% @title = "Edit Contact" %>
+<%= error_messages_for :contact %>
+
+<% tagged_form_for(:contact, :url => contact_path(@contact), :html => { :method => :put }) do |f| %>
+  <%= render(:partial => 'contact_details', :locals => { :f => f, :submit_label => 'Update' }) %>
+<% end %>
+
+<%= spanned_image_and_link_to "/images/eye.png", 'Show', contact_path(@contact) %>
+<%= spanned_image_and_link_to "/images/table.png", 'Contacts', contacts_path %>

@@ -1,0 +1,8 @@
+<% @title = "New Contact" %>
+<%= error_messages_for :contact %>
+
+<% tagged_form_for(:contact, :url => contacts_path) do |f| %>
+  <%= render(:partial => 'contact_details', :locals => { :f => f, :submit_label => 'Create' }) %>
+<% end %>
+
+<%= spanned_image_and_link_to "/images/table.png", 'Contacts', contacts_path %>

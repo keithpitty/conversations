@@ -1,0 +1,7 @@
+<fieldset>
+  <legend>Reminder Details</legend>
+    <%= f.date_select :when_due, :required => true %>
+    <%= f.text_field :title  %>
+    <%= f.text_area :details, :cols => '50', :rows => '10', :required => true %>
+    <%= submit_tag submit_label %>
+</fieldset>

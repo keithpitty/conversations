@@ -1,0 +1,35 @@
+<% @title = "Contact List" %>
+<% if @contacts.length > 0 %>
+	<table cellspacing="0">
+	  <colgroup>
+	    <col id="nameCol">
+	    <col id="organisationCol">
+	    <col id="actionsCol">
+	  </colgroup>
+	  <thead>
+	  	<tr>
+		  <th scope="col">Name</th>
+		  <th scope="col">Organisation</th>
+  		  <th scope="col">Actions</th>
+		</tr>
+	  </thead>
+      <tbody>
+	<% odd_or_even = 0
+       for contact in @contacts
+	     odd_or_even = 1 - odd_or_even %>
+	    <tr class="row<%= odd_or_even %>">	
+	      <td><%= link_to contact.full_name, contact_path(contact) %></td>
+	      <td><%=h contact.organisation %></td>
+	      <td class="imageAndLinks">
+	        <%= image_and_link_to "/images/pencil.png", 'Edit', edit_contact_path(contact) %>
+	        <%= image_and_link_to "/images/delete.png", 'Delete', contact_path(contact), :confirm => 'Are you sure?', 
+	                                                                                            :method => :delete %>
+	      </td>
+	    </tr>
+	<% end %>
+	  </tbody>
+	</table>
+	<%= will_paginate @contacts %>
+<% else %>
+    <p>No contacts yet.</p>
+<% end %>

@@ -1,0 +1,6 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+reminder_one:
+  id: 1
+  when_due: 2008-02-01
+  title: Review
+  details: Catch up to review progress.

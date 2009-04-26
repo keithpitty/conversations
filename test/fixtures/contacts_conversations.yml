@@ -1,0 +1,12 @@
+conversation_one:
+  contact_id: 1
+  conversation_id: 1
+conversation_two:
+  contact_id: 2
+  conversation_id: 2
+conversation_three_first_contact:
+  contact_id: 1
+  conversation_id: 3
+conversation_three_second_contact:
+  contact_id: 2
+  conversation_id: 3

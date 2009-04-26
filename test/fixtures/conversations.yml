@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  when_held: 2007-07-19
+  title: Advice about generating business
+  details: Fred recommended combining methods for generating business quickly with methods that will bear fruit in the longer term.
+two:
+  id: 2
+  when_held: 2007-07-19
+  title: Advice about my strengths 
+  details: Joe gave me his candid opinion about my strengths as a software developer.
+three:
+  id: 3
+  when_held: 2007-07-26
+  title: Advice about launching my business
+  details: Received valuable advice from Fred and Joe about how to best launch by business.

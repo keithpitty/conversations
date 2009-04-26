@@ -1,0 +1,13 @@
+<% @title = "Edit Conversation" %>
+<%= error_messages_for :conversation %>
+
+<% form_remote_for(:contact, :url => { :action => :add_contact }, :update => 'contacts_in_conversation') do |f| %>
+  <%= render :partial => 'who_with', :locals => { :f => f } %>
+<% end %>
+
+<% tagged_form_for(:conversation, :url => conversation_path(@conversation), :html => { :method => :put }) do |f| %>
+  <%= render :partial => 'conversation_details', :locals => { :f => f, :submit_label => 'Update' } %>
+<% end %>
+
+<%= spanned_image_and_link_to "/images/eye.png", 'Show', conversation_path(@conversation) %>
+<%= spanned_image_and_link_to "/images/table.png", 'Conversations', conversations_path %>

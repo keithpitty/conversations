@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= @title %></title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag :defaults %>
+</head>
+<body id="wrapper">
+	<div id="banner">
+	</div>
+	<% unless @title == 'Login' || @title == "Sign up" %>
+		<% if @title.include? 'Conversation' %>
+		<div id="conversations">
+		<% elsif @title.include? 'Contact' %>
+		<div id="contacts">
+		<% elsif @title.include? 'Reminder' %>
+		<div id="reminders">
+		<% end %>
+	      <div id="mainNav">
+			<ul>
+			  <li class="conversations"><%= link_to 'Conversations', :controller => 'conversations' %></li>
+			  <li class="contacts"><%= link_to 'Contacts', :controller => 'contacts' %></li>
+			  <li class="reminders"><%= link_to 'Reminders', :controller => 'reminders' %></li>
+			</ul>
+		  </div>
+		</div>
+	<% end %>
+	<div id="content">
+	<div id="mainContent">
+	  <h1><%= @title %></h1>
+	  <%= yield :layout %>
+	</div>
+	<div id="secondaryContent">
+		<% unless @title == 'Login' || @title == "Sign up" %>
+	    <%= spanned_image_and_link_to "/images/add.png", 'Add contact', new_contact_path %><br />
+	    <%= spanned_image_and_link_to "/images/add.png", 'Add conversation', new_conversation_path %><br />
+	    <%= spanned_image_and_link_to "/images/add.png", 'Add reminder', new_reminder_path %><br />
+			<br />
+			<%= link_to "Log out", '/sessions/destroy' %>
+		<% end %>
+	</div>
+    </div>
+	<div id="footer">
+	</div>
+</body>
+</html>

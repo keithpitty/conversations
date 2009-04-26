@@ -1,0 +1,8 @@
+<fieldset>
+	<legend>Contact Details</legend>
+	<%= f.text_field :first_name, :required => true %>
+	<%= f.text_field :last_name, :required => true %>
+	<%= f.text_field :organisation %>
+	<%= f.text_area :notes, :cols => '50', :rows => '10' %>
+	<%= submit_tag submit_label %>	
+</fieldset>
