@@ -1,5 +1,8 @@
 set :application, "conversations"
-set :repository,  "http://svn.keithpitty.com/#{application}/trunk"
+default_run_options[:pty] = true
+set :ssh_options, {:forward_agent => true}
+set :repository, "git@cockatoosoftware.unfuddle.com:cockatoosoftware/#{application}.git"
+set :branch, "master"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -8,7 +11,8 @@ set :repository,  "http://svn.keithpitty.com/#{application}/trunk"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-# set :scm, :subversion
+set :scm, :git
+set :deploy_via, :remote_cache
 
 role :app, "localhost"
 role :web, "localhost"
