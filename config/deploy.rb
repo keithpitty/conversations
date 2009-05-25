@@ -20,7 +20,8 @@ role :db,  "localhost", :primary => true
 
 set :user, "keithpitty"
 set :runner, "keithpitty"
-set :scm_command, "/usr/local/bin/svn"
+set :use_sudo, false
+set :scm_command, "/usr/local/bin/git"
 set :rake, "/usr/local/bin/rake"
 
 # Copy database and environment config files
@@ -33,4 +34,18 @@ namespace :deploy do
     run "cp #{db_config} #{release_path}/config/database.yml"
     run "cp #{env_config} #{release_path}/config/environment.rb"
   end  
+end
+
+# Override app start and restart for Passenger
+
+namespace :deploy do
+  desc "Restarting mod_rails with restart.txt"
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+
+  [:start, :stop].each do |t|
+    desc "#{t} task is a no-op with mod_rails"
+    task t, :roles => :app do ; end
+  end
 end
