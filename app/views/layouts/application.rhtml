@@ -38,8 +38,16 @@
 	    <%= spanned_image_and_link_to "/images/add.png", 'Add contact', new_contact_path %><br />
 	    <%= spanned_image_and_link_to "/images/add.png", 'Add conversation', new_conversation_path %><br />
 	    <%= spanned_image_and_link_to "/images/add.png", 'Add reminder', new_reminder_path %><br />
-			<br />
-			<%= link_to "Log out", '/sessions/destroy' %>
+			<h4>Find contacts by last name</h4>
+			<% %w(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z).each do |prefix| %>
+			  <%= link_to prefix, "/contacts?prefix=#{prefix}" %>
+			  <% if prefix == 'M' %>
+			    <br />
+			  <% end %>
+			<% end %><br />
+  		<br />
+  		<br />
+  		<%= link_to "Log out", '/sessions/destroy' %>
 		<% end %>
 	</div>
     </div>

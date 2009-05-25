@@ -3,7 +3,14 @@ class ContactsController < ApplicationController
   # GET /contacts
   # GET /contacts.xml
   def index
-    @contacts = Contact.paginate :page => params[:page], :order => :last_name, :per_page => 15
+    if params[:prefix]
+      @contacts = Contact.paginate :page => params[:page], 
+                                   :conditions => ['last_name like ?', "#{params[:prefix]}%"], 
+                                   :order => :last_name, 
+                                   :per_page => 15
+    else
+      @contacts = Contact.paginate :page => params[:page], :order => :last_name, :per_page => 15
+    end
 
     respond_to do |format|
       format.html # index.rhtml
