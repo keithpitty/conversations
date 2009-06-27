@@ -4,11 +4,15 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.xml
   def index
-    @conversations = Conversation.paginate :page => params[:page], :order => "when_held desc", :per_page => 15
+    if Reminder.count > 0
+      redirect_to reminders_path
+    else
+      @conversations = Conversation.paginate :page => params[:page], :order => "when_held desc", :per_page => 15
 
-    respond_to do |format|
-      format.html # index.rhtml
-      format.xml  { render :xml => @conversations.to_xml }
+      respond_to do |format|
+        format.html # index.rhtml
+        format.xml  { render :xml => @conversations.to_xml }
+      end
     end
   end
 
