@@ -4,7 +4,8 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.xml
   def index
-    if Reminder.count > 0
+    if Reminder.count > 0 && session[:just_logged_in]
+      session[:just_logged_in] = nil
       redirect_to reminders_path
     else
       @conversations = Conversation.paginate :page => params[:page], :order => "when_held desc", :per_page => 15
