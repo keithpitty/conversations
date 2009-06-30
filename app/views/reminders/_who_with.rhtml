@@ -1,7 +1,7 @@
 <fieldset>
   <legend>Who With?</legend>
     <div id="contacts_for_reminder">
-	    <%= render :partial => "contacts_for_reminder", :locals => { :contacts => @contacts_for_reminder } %>
+	    <%= render :partial => "contacts_for_reminder", :locals => { :contacts => @reminder.contacts } %>
 	</div>
 	<p>
       <%= f.collection_select :id, @contacts, :id, :full_name, {:include_blank => '--Select contact--'} %>

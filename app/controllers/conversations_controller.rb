@@ -32,17 +32,20 @@ class ConversationsController < ApplicationController
   def new
     @conversation = Conversation.new
     @contacts = Contact.find(:all, :order => "last_name")
-    @contacts_in_conversation = Array.new
-    @contacts_in_conversation << Contact.find(params[:id]) unless params[:id].blank?
-    session[:contacts_in_conversation] = @contacts_in_conversation
+    @conversation.contacts = []
+    @conversation.contacts << Contact.find(params[:id]) unless params[:id].blank?
+    contact_ids = []
+    contact_ids << params[:id] unless params[:id].blank?
+    session[:contacts_in_conversation] = contact_ids
   end
 
   # GET /conversations/1;edit
   def edit
     @conversation = Conversation.find(params[:id])
     @contacts = Contact.find(:all, :order => "last_name")
-    @contacts_in_conversation = @conversation.contacts
-    session[:contacts_in_conversation] = @contacts_in_conversation
+    contact_ids = []
+    @conversation.contacts.each {|contact| contact_ids << contact.id }
+    session[:contacts_in_conversation] = contact_ids
   end
 
   # POST /conversations
@@ -50,11 +53,10 @@ class ConversationsController < ApplicationController
   def create
     @conversation = Conversation.new(params[:conversation])
     if session[:contacts_in_conversation].blank?
-      @contacts_in_conversation = Array.new
+      @conversation.contacts = []
       @conversation.errors.add_to_base("You must specify at least one contact.")
     else
-      @contacts_in_conversation = session[:contacts_in_conversation]
-      @conversation.contacts = session[:contacts_in_conversation]
+      @conversation.contacts = contacts_from_ids(session[:contacts_in_conversation])
     end
 
     respond_to do |format|
@@ -101,10 +103,7 @@ class ConversationsController < ApplicationController
   
   def add_contact
     contact_to_add = Contact.find(params[:contact][:id])
-    contacts_in_conversation = session[:contacts_in_conversation]
-    if contacts_in_conversation == nil
-      contacts_in_conversation = Array.new
-    end
+    contacts_in_conversation = contacts_from_ids(session[:contacts_in_conversation])
     unless contacts_in_conversation.include? contact_to_add
       contacts_in_conversation << contact_to_add
     end
@@ -113,7 +112,7 @@ class ConversationsController < ApplicationController
   
   def delete_contact
     contact_to_delete = Contact.find(params[:id])
-    contacts_in_conversation = session[:contacts_in_conversation]
+    contacts_in_conversation = contacts_from_ids(session[:contacts_in_conversation])
     contacts_in_conversation = contacts_in_conversation.reject { |contact| contact == contact_to_delete }
     render_contacts_in_conversation(contacts_in_conversation)
   end
@@ -121,7 +120,15 @@ class ConversationsController < ApplicationController
   private
   
   def render_contacts_in_conversation(contacts)
-    session[:contacts_in_conversation] = contacts
+    contact_ids = []
+    contacts.each {|contact| contact_ids << contact.id }
+    session[:contacts_in_conversation] = contact_ids
     render :partial => "contacts_in_conversation", :locals => { :contacts => contacts }
+  end
+  
+  def contacts_from_ids(contact_ids)
+    contacts = []
+    contact_ids.each {|id| contacts << Contact.find(id) } if contact_ids && contact_ids.any?
+    contacts
   end
 end

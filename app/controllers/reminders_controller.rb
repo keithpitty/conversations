@@ -26,17 +26,20 @@ class RemindersController < ApplicationController
   def new
     @reminder = Reminder.new
     @contacts = Contact.find(:all, :order => "last_name")
-    @contacts_for_reminder = Array.new
-    @contacts_for_reminder << Contact.find(params[:id]) unless params[:id].blank?
-    session[:contacts_for_reminder] = @contacts_for_reminder
+    @reminder.contacts = []
+    @reminder.contacts << Contact.find(params[:id]) unless params[:id].blank?
+    contact_ids = []
+    contact_ids << params[:id] unless params[:id].blank?
+    session[:contacts_for_reminder] = contact_ids
   end
 
   # GET /reminders/1;edit
   def edit
     @reminder = Reminder.find(params[:id])
     @contacts = Contact.find(:all, :order => "last_name")
-    @contacts_for_reminder = @reminder.contacts
-    session[:contacts_for_reminder] = @contacts_for_reminder
+    contact_ids = []
+    @reminder.contacts.each {|contact| contact_ids << contact.id }
+    session[:contacts_for_reminder] = contact_ids
   end
 
   # POST /reminders
@@ -44,14 +47,13 @@ class RemindersController < ApplicationController
   def create
     @reminder = Reminder.new(params[:reminder])
     if session[:contacts_for_reminder].blank?
-      @contacts_for_reminder = Array.new
+      @reminder.contacts = []
       @reminder.errors.add_to_base("You must specify at least one contact.")
     elsif @reminder.valid? && @reminder.when_due < Time.now.to_date
-      @contacts_for_reminder = Array.new
+      @reminder.contacts = []
       @reminder.errors.add_to_base("Due date cannot be in the past.")
     else
-      @contacts_for_reminder = session[:contacts_for_reminder]
-      @reminder.contacts = session[:contacts_for_reminder]
+      @reminder.contacts = contacts_from_ids(session[:contacts_for_reminder])
     end
 
     respond_to do |format|
@@ -98,9 +100,9 @@ class RemindersController < ApplicationController
   
   def add_contact
     contact_to_add = Contact.find(params[:contact][:id])
-    contacts_for_reminder = session[:contacts_for_reminder]
+    contacts_for_reminder = contacts_from_ids(session[:contacts_for_reminder])
     if contacts_for_reminder == nil
-      contacts_for_reminder = Array.new
+      contacts_for_reminder = []
     end
     unless contacts_for_reminder.include? contact_to_add
       contacts_for_reminder << contact_to_add
@@ -110,7 +112,7 @@ class RemindersController < ApplicationController
   
   def delete_contact
     contact_to_delete = Contact.find(params[:id])
-    contacts_for_reminder = session[:contacts_for_reminder]
+    contacts_for_reminder = contacts_from_ids(session[:contacts_for_reminder])
     contacts_for_reminder = contacts_for_reminder.reject { |contact| contact == contact_to_delete }
     render_contacts_for_reminder(contacts_for_reminder)
   end
@@ -118,8 +120,16 @@ class RemindersController < ApplicationController
   private
   
   def render_contacts_for_reminder(contacts)
-    session[:contacts_for_reminder] = contacts
+    contact_ids = []
+    contacts.each {|contact| contact_ids << contact.id }
+    session[:contacts_for_reminder] = contact_ids
     render :partial => "contacts_for_reminder", :locals =>  { :contacts => contacts }
+  end
+
+  def contacts_from_ids(contact_ids)
+    contacts = []
+    contact_ids.each {|id| contacts << Contact.find(id) } if contact_ids && contact_ids.any?
+    contacts
   end
   
 end
